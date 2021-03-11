@@ -20,8 +20,7 @@ select
   extract(epoch from (now() - pg_backup_start_time()))::int8
     as backup_duration_s,
   case when pg_is_in_recovery() then 1 else 0 end
-    as in_recovery_int,
-  system_identifier::text as tag_sys_id
+    as in_recovery_int
 from
   pg_stat_database, pg_control_system()
 where
