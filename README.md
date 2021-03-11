@@ -21,19 +21,21 @@ sdk is not required.
 2. Install dependencies (mentioned above)
 3. Setup telegraf to run this plugin using execd.
 
-Sample config snippet (assuming that the script is kept in
-`/etc/telegraf/scripts/pg_custom/`):
+   Sample config snippet (assuming that the script is kept in
+   `/etc/telegraf/scripts/pg_custom/`):
 
-``` toml
-[[inputs.execd]]
-  interval = "300s"
-  data_format = "influx"
-  command = ["/usr/bin/python", "/etc/telegraf/scripts/pg_custom/postgresql_query.py", "/etc/telegraf/scripts/pg_custom/postgresql_custom_data.conf"]
-  restart_delay = "60s"
-  signal = "STDIN"
-  [inputs.execd.tags]
-    influxdb_retention = "one_week"
-```
+   ``` toml
+   [[inputs.execd]]
+     interval = "300s"
+     data_format = "influx"
+     command = ["/usr/bin/python", "/etc/telegraf/scripts/pg_custom/postgresql_query.py", "/etc/telegraf/scripts/pg_custom/postgresql_custom_data.conf"]
+     restart_delay = "60s"
+     signal = "STDIN"
+
+   [[outputs.influxdb]]
+     urls = ["http://127.0.0.1:8086"]
+     database = "telegraf"
+   ```
 
 4. Setup PostgreSQL credentials so that this plugin can run queries. There are
    two common ways to do that:
@@ -58,7 +60,7 @@ Sample config snippet (assuming that the script is kept in
    address="host=127.0.0.1 user=telegraf password=secret"
    ```
 
-5. Add your queries in the `postgresql_custom_data.conf`. Same sample queries
+5. Add your queries in the `postgresql_custom_data.conf`. Some sample queries
    are included.
 
 6. Start telegraf, and check logs. If everything is working correctly, you
@@ -69,3 +71,6 @@ Sample config snippet (assuming that the script is kept in
    ```
 
    If not, there should be enough in the logs to debug further.
+
+7. A sample grafana dashboard is also availabled as an exported json in this repo.
+
