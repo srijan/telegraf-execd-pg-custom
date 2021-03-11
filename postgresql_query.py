@@ -106,7 +106,11 @@ def print_data(pg, conf):
                 to_print = to_print + format_results(result, dbname=dbname,
                                                      measurement=measurement,
                                                      tagvalue=tagvalue)
-        # TODO: Else block for above
+        else:
+            result = pg.query(query)
+            to_print = to_print + format_results(result,
+                                                 measurement=measurement,
+                                                 tagvalue=tagvalue)
 
     print("\n".join(to_print))
 
