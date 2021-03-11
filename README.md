@@ -1,5 +1,7 @@
 # PostgreSQL Custom Input Plugin for Telegraf
 
+For more details, please see the blog post: https://www.srijn.net/2021/03/advanced-postgresql-monitoring-using-telegraf/
+
 ## Requirements
 
 Since this is a custom plugin for Telegraf, so telegraf is required.
