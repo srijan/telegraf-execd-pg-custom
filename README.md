@@ -36,7 +36,8 @@ sdk is not required.
    /path/to/installation/bin/pip install telegraf-execd-pg-custom
 
    # ... or directly from github
-   /path/to/installation/bin/pip install git+https://github.com/srijan/telegraf-execd-pg-custom.git@main
+   /path/to/installation/bin/pip install \
+       git+https://github.com/srijan/telegraf-execd-pg-custom.git@main
    ```
 
 3. Create a config-file for the script. A template can be found in
