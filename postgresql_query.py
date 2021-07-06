@@ -102,7 +102,7 @@ def print_data(pg, conf):
         if "per_db" in q and q["per_db"]:
             # Have to run queries for all fetch dbs
             results = pg.per_db_query(query)
-            for (dbname, result) in results.iteritems():
+            for (dbname, result) in results.items():
                 to_print = to_print + format_results(result, dbname=dbname,
                                                      measurement=measurement,
                                                      tagvalue=tagvalue)
