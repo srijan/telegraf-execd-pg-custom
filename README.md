@@ -23,6 +23,7 @@ sdk is not required.
 
    ```
    python3 -m venv /path/to/installation
+   /path/to/installation/bin/pip install -U pip  # ensure pip is up-to-date
    ```
 
    NOTE: This avoids polluting the underlying OS with system-wide Python
