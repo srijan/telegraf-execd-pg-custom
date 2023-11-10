@@ -2,14 +2,12 @@
 
 import os
 import sys
+
 import psycopg2
 import psycopg2.extras
-# Use pytoml for older systems (<= Debian 8)
-try:
-    import toml
-except ImportError:
-    import pytoml as toml
-from line_protocol import make_line
+import pytoml as toml
+
+from .line_protocol import make_line
 
 
 class PGQuerier:
@@ -32,7 +30,7 @@ class PGQuerier:
     def fetch_databases(self):
         result = self.query(
             "SELECT datname FROM pg_database where datistemplate = false")
-        self.databases = [ d['datname'] for d in result ]
+        self.databases = [d['datname'] for d in result]
         return self.databases
 
     def query(self, query):
@@ -114,15 +112,10 @@ def print_data(pg, conf):
 
     print("\n".join(to_print))
 
-def set_cwd():
-    abspath = os.path.abspath(__file__)
-    dname = os.path.dirname(abspath)
-    os.chdir(dname)
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) != 2:
         sys.exit("ERROR: Please pass the config file path as argument")
-    set_cwd()
     with open(sys.argv[1]) as conf_file:
         CONF = toml.load(conf_file)["postgresql_custom"]
     if "address" in CONF:
@@ -132,3 +125,7 @@ if __name__ == '__main__':
     while True:
         sys.stdin.readline()
         print_data(PG, CONF)
+
+
+if __name__ == '__main__':
+    main()

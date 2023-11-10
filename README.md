@@ -19,9 +19,35 @@ sdk is not required.
 
 ## How to use
 
-1. Copy the repo files to some location in the target system
-2. Install dependencies (mentioned above)
-3. Setup telegraf to run this plugin using execd.
+1. Create a new virtual environment:
+
+   ```
+   python3 -m venv /path/to/installation
+   /path/to/installation/bin/pip install -U pip  # ensure pip is up-to-date
+   ```
+
+   NOTE: This avoids polluting the underlying OS with system-wide Python
+   dependencies. Everything is kept in the virtual-environment path. To
+   uninstall simply delete that folder.
+
+2. Install the package (dependencies are installed automatically)
+
+   ```
+   # Directly from pypi (recommended)
+   /path/to/installation/bin/pip install telegraf-execd-pg-custom
+
+   # ... or directly from github
+   /path/to/installation/bin/pip install \
+       git+https://github.com/srijan/telegraf-execd-pg-custom.git@main
+   ```
+
+3. Create a config-file for the script. A template can be found in
+   https://github.com/srijan/telegraf-execd-pg-custom/blob/main/postgresql_custom_data.conf
+
+   Make sure to set the "address" field in the config file with a
+   connection-string to the monitored database. See also step 5 below.
+
+4. Setup telegraf to run this plugin using execd.
 
    Sample config snippet (assuming that the script is kept in
    `/etc/telegraf/scripts/pg_custom/`):
@@ -30,7 +56,7 @@ sdk is not required.
    [[inputs.execd]]
      interval = "300s"
      data_format = "influx"
-     command = ["/usr/bin/python", "/etc/telegraf/scripts/pg_custom/postgresql_query.py", "/etc/telegraf/scripts/pg_custom/postgresql_custom_data.conf"]
+     command = ["/path/to/installation/bin/postgresql-query", "/path/to/postgresql_custom_data.conf"]
      restart_delay = "60s"
      signal = "STDIN"
 
@@ -39,7 +65,7 @@ sdk is not required.
      database = "telegraf"
    ```
 
-4. Setup PostgreSQL credentials so that this plugin can run queries. There are
+5. Setup PostgreSQL credentials so that this plugin can run queries. There are
    two common ways to do that:
 
    a. Create telegraf user with superuser access, but don't create a password
@@ -62,10 +88,10 @@ sdk is not required.
    address="host=127.0.0.1 user=telegraf password=secret"
    ```
 
-5. Add your queries in the `postgresql_custom_data.conf`. Some sample queries
+6. Add your queries in the `postgresql_custom_data.conf`. Some sample queries
    are included.
 
-6. Start telegraf, and check logs. If everything is working correctly, you
+7. Start telegraf, and check logs. If everything is working correctly, you
    should see something like this:
 
    ```
@@ -74,5 +100,5 @@ sdk is not required.
 
    If not, there should be enough in the logs to debug further.
 
-7. A sample grafana dashboard is also availabled as an exported json in this repo.
+8. A sample grafana dashboard is also availabled as an exported json in this repo.
 
